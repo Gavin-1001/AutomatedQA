@@ -1,8 +1,9 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
+const exp = require("constants");
 
 const baseUrl = 'https://reqres.in/api'
-test('POST register data', async ({ request }) => {
+test('POST USER Register', async ({ request }) => {
   const response = await request.post(baseUrl+'/register', {
     data: {
       "email": "eve.holt@reqres.in",
@@ -22,7 +23,7 @@ test('POST register data', async ({ request }) => {
   await expect(responseBody).toEqual(expectedStructure);
 });
 
-test('POST user Login', async ({ request }) => {
+test('POST USER Login', async ({ request }) => {
   const response = await request.post(baseUrl+'/login', {
     data: {
       "email": "eve.holt@reqres.in",
@@ -33,33 +34,16 @@ test('POST user Login', async ({ request }) => {
   const responseBody = await response.json();
   // console.log(responseBody);
   expect(response.status()).toBe(200);
-  //expectBodyStructure //take a look for response structure
+  const expectedStructure = {
+    token: expect.any(String),
+  };
+  await expect(responseBody).toEqual(expectedStructure);
 });
 
 test('DELETE user request', async({request}) => {
   const response = await request.delete(baseUrl+`/delete/2`)
   expect(response.status()).toBe(204);
 });
-
-/////
-function expectBodyStructures(body) {
-  // Define the expected structure
-  const expectedStructure = {
-    id: expect.any(Number),  // Check if key1 is a string
-    email: expect.any(String),
-    first_name: expect.any(String),
-    last_name: expect.any(String),
-    avatar: expect.objectContaining({  // Check if key3 is an object
-      url: expect.any(String),
-      text: expect.any(String),
-    }),
-  };
-
-  // Use the expect function to check if the body structure matches the expected structure
-  return expect(body).toEqual(expect.objectContaining(expectedStructure));
-}
-///
-
 
 
 test("GET - Single User", async({request}) => {
