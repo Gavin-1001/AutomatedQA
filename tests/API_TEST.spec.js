@@ -1,6 +1,5 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
-const exp = require("constants");
 
 const baseUrl = 'https://reqres.in/api'
 test('POST USER Register', async ({ request }) => {
