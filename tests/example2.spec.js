@@ -19,8 +19,7 @@ test("Assert Login button contains portal URL", async () => {
     await page.goto(baseUrl);
 
     //get the title "THE PEOPLE WHO POWER YOUR POSSIBLE IS VISIBLE
-
-
+    await (await page.waitForSelector('div:has-text("THE PEOPLE WHO POWER YOUR POSSIBLE")')).isVisible();
     await page.getByRole("link", {name: "Log in"}).click()
     await expect(page).toHaveURL(new RegExp('^https://portal.ek.co/'));
     await page.getByRole("form").isVisible();
@@ -33,9 +32,7 @@ test("Form Errors", async() => {
     const page = await browser.newPage();
     await page.goto(portalUrl);
 
-
     await page.getByRole("form").isVisible();
-
     await page.getByRole("button").click();
     await page.fill('#email', '')
     await page.fill('#passwd', '');
@@ -43,16 +40,13 @@ test("Form Errors", async() => {
     await page.getByText(emailErrorMsg).isVisible();
     await page.getByText(pwdErrorMsg).isVisible();
 
-
-
-
 });
 
 test("Invalid email error", async() => {
 
     const invalidEmail = "gavin.test.com"
     const validEmail = "email@mail.com"
-
+    const emailErrorMsg = 'Email must be a valid email'
 
     const browser = await firefox.launch()
     const page = await browser.newPage();
@@ -60,7 +54,7 @@ test("Invalid email error", async() => {
     await page.getByRole("form").isVisible();
     await page.fill('#email', invalidEmail);
     await page.click('input[type="submit"]');
-    await page.getByText("Email mist be a valid email").isVisible()
+    await page.getByText(emailErrorMsg).isVisible()
 
     await page.fill('#email', validEmail)
     await page.click('input[type="submit"]');
