@@ -2,7 +2,6 @@
 const { test, expect } = require('@playwright/test');
 
 const baseUrl = 'https://reqres.in/api'
-let expectBodyStructure;
 test('POST register data', async ({ request }) => {
   const response = await request.post(baseUrl+'/register', {
     data: {
@@ -53,19 +52,21 @@ test('DELETE user request', async({request}) => {
 function expectBodyStructures(body) {
   // Define the expected structure
   const expectedStructure = {
-    key1: expect.any(String),  // Check if key1 is a string
-    key2: expect.any(Number),  // Check if key2 is a number
-    key3: expect.objectContaining({  // Check if key3 is an object
-      subkey1: expect.any(String),
-      subkey2: expect.any(Boolean),
+    id: expect.any(Number),  // Check if key1 is a string
+    email: expect.any(String),
+    first_name: expect.any(String),
+    last_name: expect.any(String),
+    avatar: expect.objectContaining({  // Check if key3 is an object
+      url: expect.any(String),
+      text: expect.any(String),
     }),
   };
 
   // Use the expect function to check if the body structure matches the expected structure
   return expect(body).toEqual(expect.objectContaining(expectedStructure));
 }
+///
 
-////
 
 
 test("GET - Single User", async({request}) => {
@@ -81,13 +82,23 @@ test("GET - Single User", async({request}) => {
     avatar: expect.objectContaining({  // Check if key3 is an object
       url: expect.any(String),
       text: expect.any(String),
-    }),
+    }), // try using the function above to reuse the code
   };
 });
 
-test("PUT", async({request}) =>{
+test("Update User", async({request}) =>{
 
-  const response = await request.put(baseUrl+``)
+  const response = await request.put(baseUrl+'/update/2', {
+    data: {
+      name:"name",
+      job: "tester",
+      updatedAt: "2023-11-04T10:15:16.583Z"
+    }
+  });
+
+  const responseBody = await response.json()
+
+  console.log(responseBody);
 
 })
 
