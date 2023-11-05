@@ -72,24 +72,6 @@ test("Update User", async({request}) =>{
       updatedAt: "2023-11-04T10:15:16.583Z"
     }
   });
-
-  const responseBody = await response.json()
-
+  const responseBody = await response.json();
   console.log(responseBody);
-
 })
-
-
-
-
-
-/*test('POST user Login', async ({ request }) => {
-await page.goto('https://playwright.dev/');
-
-// Click the get started link.
-await page.getByRole('link', { name: 'Get started' }).click();
-
-// Expects page to have a heading with the name of Installation.
-await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
-});*/
-
