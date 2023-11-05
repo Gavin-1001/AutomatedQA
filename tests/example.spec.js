@@ -15,19 +15,12 @@ test('POST register data', async ({ request }) => {
 
   expect(response.status()).toBe(200)
 
-  //todo-> this doesn't work correctly
-  // const expectedStructure = {
-  //   key1: expect.objectContaining({  // Check if key3 is an object
-  //     subkey: expect.any(Number),
-  //     : expect.any(String),
-  //   }),
-  // };
-  //expect(responseBody).toEqual(expect.objectContaining(expectedStructure.key1));
-
+  const expectedStructure = {
+    id: expect.any(Number),  // Check if key1 is a string
+    token: expect.any(String),
+  };
+  await expect(responseBody).toEqual(expectedStructure);
 });
-
-
-
 
 test('POST user Login', async ({ request }) => {
   const response = await request.post(baseUrl+'/login', {
